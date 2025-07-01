@@ -1,11 +1,11 @@
 <template>
   <label 
-    :for="htmlFor"
+    :for="content.htmlFor"
     :class="labelClasses"
   >
-    <span v-if="text">{{ text }}</span>
+    <span v-if="content.text">{{ content.text }}</span>
     <slot v-else />
-    <span v-if="required" class="text-destructive ml-1">*</span>
+    <span v-if="content.required" class="text-destructive ml-1">*</span>
   </label>
 </template>
 
@@ -16,13 +16,21 @@ import { cn } from './cn.js'
 export default {
   name: 'WewebLabel',
   props: {
-        // Individual props will be auto-generated based on the component type
-        // This is a placeholder that will be manually refined per component
-    },
+    content: {
+      type: Object,
+      required: true,
+      default: () => ({
+        text: '',
+        htmlFor: '',
+        required: false,
+        customClasses: ''
+      })
+    }
+  },
   setup(props) {
     const labelClasses = computed(() => cn(
       "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-      props.customClasses
+      props.content.customClasses
     ))
 
     return {
